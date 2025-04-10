@@ -7,7 +7,7 @@ import { SearchStatusQueryDto } from 'src/common/dto/search-status-query.dto';
 import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
 
 @Injectable()
-// prueba de commit
+// prueba de committttttt
 export class HaircutsService {
   constructor(
     private readonly db: PrismaService,
