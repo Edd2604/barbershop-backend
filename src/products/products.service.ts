@@ -13,6 +13,7 @@ export class ProductsService {
     private readonly cloudinaryService: CloudinaryService,
   ) {}
 
+  // este servicio se eliminara
   async create(createProductDto: CreateProductDto, file?: Express.Multer.File) {
     createProductDto.img = await this.cloudinaryService.uploadImage(file);
     return await this.db.product.create({
