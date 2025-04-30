@@ -18,102 +18,6 @@ model AuditLog {
   User     User     @relation(fields: [userId], references: [id])
 }
 
-model Movement {
-  id        Int          @id @default(autoincrement())
-  created   DateTime     @default(now())
-  type      MovementType
-  productId Int
-  quantity  Int
-  notes     String
-  Product   Product      @relation(fields: [productId], references: [id])
-}
-
-model Product {
-  id             Int             @id @default(autoincrement())
-  created        DateTime        @default(now())
-  updated        DateTime        @updatedAt
-  name           String          @db.VarChar(100)
-  description    String          @db.VarChar(100)
-  category       ProductCategory
-  img            String          @default("PENDIENTE")
-  stock          Int             @default(0)
-  price          Decimal         @db.Decimal(10, 2)
-  discount       Decimal         @db.Decimal(10, 2)
-  orderLimit     Int
-  isActive       Boolean         @default(false)
-  isArchived     Boolean         @default(false)
-  lastStockEntry DateTime?
-  Movement       Movement[]
-  SaleItem       SaleItem[]
-  PurchaseItem   PurchaseItem[]
-}
-
-model Provider {
-  id         Int        @id @default(autoincrement())
-  created    DateTime   @default(now())
-  updated    DateTime   @updatedAt
-  ruc        String     @unique @db.VarChar(11)
-  name       String     @db.VarChar(100)
-  legal      String     @db.VarChar(100)
-  web        String?    @db.VarChar(100)
-  email      String     @db.VarChar(100)
-  number     String     @db.VarChar(9)
-  isActive   Boolean    @default(false)
-  isArchived Boolean    @default(false)
-  Purchase   Purchase[]
-}
-
-model Purchase {
-  id            Int            @id @default(autoincrement())
-  created       DateTime       @default(now())
-  providerId    Int
-  totalAmount   Decimal        @db.Decimal(10, 2)
-  receiptType   ReceiptType
-  receiptNumber String
-  receiptDate   DateTime
-  Provider      Provider       @relation(fields: [providerId], references: [id])
-  PurchaseItem  PurchaseItem[]
-  Admin         Admin          @relation(fields: [adminId], references: [id])
-  adminId       Int
-}
-
-model PurchaseItem {
-  id          Int      @id @default(autoincrement())
-  purchaseId  Int
-  productId   Int
-  productName String
-  quantity    Int
-  price       Decimal  @db.Decimal(10, 2)
-  Product     Product  @relation(fields: [productId], references: [id])
-  Purchase    Purchase @relation(fields: [purchaseId], references: [id], onDelete: Cascade)
-}
-
-model Sale {
-  id            Int           @id @default(autoincrement())
-  created       DateTime      @default(now())
-  transaction   String        @default("NO HUBO TRANSACCION")
-  amount        Decimal       @db.Decimal(10, 2)
-  discount      Decimal       @db.Decimal(10, 2)
-  totalAmount   Decimal       @db.Decimal(10, 2)
-  paymentMethod PaymentMethod
-  status        Status        @default(PENDIENTE)
-  SaleItem      SaleItem[]
-  Customer      Customer      @relation(fields: [customerId], references: [id])
-  customerId    Int
-}
-
-model SaleItem {
-  id          Int     @id @default(autoincrement())
-  saleId      Int
-  productId   Int
-  productName String
-  quantity    Int
-  price       Decimal @db.Decimal(10, 2)
-  discount    Decimal @db.Decimal(10, 2)
-  Product     Product @relation(fields: [productId], references: [id])
-  Sale        Sale    @relation(fields: [saleId], references: [id], onDelete: Cascade)
-}
-
 model User {
   id         Int        @id @default(autoincrement())
   created    DateTime   @default(now())
@@ -137,18 +41,16 @@ model Customer {
   number      String        @db.VarChar(9)
   userId      Int           @unique
   User        User          @relation(fields: [userId], references: [id])
-  Sale        Sale[]
   Appointment Appointment[]
   isArchived  Boolean       @default(false)
 }
 
 model Admin {
-  id         Int        @id @default(autoincrement())
+  id         Int       @id @default(autoincrement())
   lastLogin  DateTime?
-  userId     Int        @unique
-  User       User       @relation(fields: [userId], references: [id])
-  Purchase   Purchase[]
-  isArchived Boolean    @default(false)
+  userId     Int       @unique
+  User       User      @relation(fields: [userId], references: [id])
+  isArchived Boolean   @default(false)
 }
 
 model Barber {
@@ -163,14 +65,25 @@ model Barber {
 }
 
 model Service {
-  id          Int           @id @default(autoincrement())
+  id          Int             @id @default(autoincrement())
   name        String
   description String
-  price       Decimal       @db.Decimal(10, 2)
+  price       Decimal         @db.Decimal(10, 2)
   img         String?
-  isActive    Boolean       @default(false)
-  isArchived  Boolean       @default(false)
+  category    ServiceCategory
+  isActive    Boolean         @default(false)
+  isArchived  Boolean         @default(false)
   Appointment Appointment[]
+}
+
+model Catalog {
+  id          Int              @id @default(autoincrement())
+  name        String           @db.VarChar(100)
+  description String?          @db.Text
+  category    CatalogCategory
+  isActive    Boolean          @default(false)
+  isArchived  Boolean          @default(false)
+  imgs        String[]
 }
 
 model Appointment {
@@ -187,15 +100,6 @@ model Appointment {
   Service     Service             @relation(fields: [serviceId], references: [id])
   isArchived  Boolean             @default(false)
   Payment     AppointmentPayment?
-}
-
-model HaircutType {
-  id          Int      @id @default(autoincrement())
-  name        String   @db.VarChar(100)
-  description String?  @db.Text
-  isActive    Boolean  @default(false)
-  isArchived  Boolean  @default(false)
-  imgs        String[]
 }
 
 model AppointmentPayment {
@@ -218,11 +122,6 @@ enum UserRole {
   BARBERO
 }
 
-enum MovementType {
-  ENTRADA
-  SALIDA
-}
-
 enum Action {
   CREATE
   UPDATE
@@ -230,21 +129,11 @@ enum Action {
 }
 
 enum Entity {
-  Purchase
-  Provider
   User
-  Product
-  Movement
-  Sale
   Barber
   Appointment
   Service
   AppointmentPayment
-}
-
-enum ReceiptType {
-  BOLETA
-  FACTURA
 }
 
 enum PaymentMethod {
@@ -268,12 +157,14 @@ enum AppointmentStatus {
   CANCELADA
 }
 
-enum ProductCategory {
-  CUIDADO_CABELLO
-  TINTES
-  CUIDADO_BARBA
-  HERRAMIENTAS_CORTE
-  LOCIONES_FRAGANCIAS
-  CUIDADO_PIEL
-  ACCESORIOS
+enum ServiceCategory {
+  SERVICIOS_INDIVIDUALES
+  PAQUETES_DE_SERVICIOS
+  TINTURACIÓN
+}
+
+enum CatalogCategory {
+  HAIRCUT
+  BEARD
+  DYE
 }

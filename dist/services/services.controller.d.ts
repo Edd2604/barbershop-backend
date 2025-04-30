@@ -13,6 +13,7 @@ export declare class ServicesController {
         id: number;
         isArchived: boolean;
         price: import("@prisma/client/runtime/library").Decimal;
+        category: import(".prisma/client").$Enums.ServiceCategory;
     }>;
     findAll(params: SearchStatusQueryDto): import(".prisma/client").Prisma.PrismaPromise<{
         description: string;
@@ -22,6 +23,7 @@ export declare class ServicesController {
         id: number;
         isArchived: boolean;
         price: import("@prisma/client/runtime/library").Decimal;
+        category: import(".prisma/client").$Enums.ServiceCategory;
     }[]>;
     findOne(id: number): Promise<{
         description: string;
@@ -31,6 +33,7 @@ export declare class ServicesController {
         id: number;
         isArchived: boolean;
         price: import("@prisma/client/runtime/library").Decimal;
+        category: import(".prisma/client").$Enums.ServiceCategory;
     }>;
     update(id: number, updateServiceDto: UpdateServiceDto, file: Express.Multer.File): Promise<{
         description: string;
@@ -40,6 +43,7 @@ export declare class ServicesController {
         id: number;
         isArchived: boolean;
         price: import("@prisma/client/runtime/library").Decimal;
+        category: import(".prisma/client").$Enums.ServiceCategory;
     }>;
     remove(id: number): Promise<{
         message: string;

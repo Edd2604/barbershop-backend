@@ -1,6 +1,13 @@
 import { ApiHideProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
-import { IsBoolean, IsNumber, IsOptional, IsString } from 'class-validator';
+import {
+  IsBoolean,
+  IsEnum,
+  IsNumber,
+  IsOptional,
+  IsString,
+} from 'class-validator';
+import { ServiceCategory } from '@prisma/client';
 
 export class CreateServiceDto {
   @IsString()
@@ -17,6 +24,9 @@ export class CreateServiceDto {
   @IsString()
   @IsOptional()
   img: string;
+
+  @IsEnum(ServiceCategory)
+  category: ServiceCategory;
 
   @Type(() => Boolean)
   @IsOptional()

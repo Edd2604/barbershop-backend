@@ -15,44 +15,44 @@ export declare class AppointmentsService {
         id: number;
         created: Date;
         isArchived: boolean;
-        notes: string | null;
-        customerId: number;
         scheduledAt: Date;
+        customerId: number;
         barberId: number;
         serviceId: number;
+        notes: string | null;
     }>;
     findAll({ limit, page, from_date, status, to_date, }: AppointmentQueryDto): Promise<{
         status: import(".prisma/client").$Enums.AppointmentStatus;
         id: number;
         created: Date;
         isArchived: boolean;
-        notes: string | null;
-        customerId: number;
         scheduledAt: Date;
+        customerId: number;
         barberId: number;
         serviceId: number;
+        notes: string | null;
     }[]>;
     findOne(id: number): Promise<{
         status: import(".prisma/client").$Enums.AppointmentStatus;
         id: number;
         created: Date;
         isArchived: boolean;
-        notes: string | null;
-        customerId: number;
         scheduledAt: Date;
+        customerId: number;
         barberId: number;
         serviceId: number;
+        notes: string | null;
     }>;
     update(id: number, updateAppointmentDto: UpdateAppointmentDto): Promise<{
         status: import(".prisma/client").$Enums.AppointmentStatus;
         id: number;
         created: Date;
         isArchived: boolean;
-        notes: string | null;
-        customerId: number;
         scheduledAt: Date;
+        customerId: number;
         barberId: number;
         serviceId: number;
+        notes: string | null;
     }>;
     remove(id: number): Promise<{
         message: string;
@@ -62,54 +62,54 @@ export declare class AppointmentsService {
         id: number;
         created: Date;
         isArchived: boolean;
-        notes: string | null;
-        customerId: number;
         scheduledAt: Date;
+        customerId: number;
         barberId: number;
         serviceId: number;
+        notes: string | null;
     }[]>;
     findAppointmentsToday(): Promise<{
         status: import(".prisma/client").$Enums.AppointmentStatus;
         id: number;
         created: Date;
         isArchived: boolean;
-        notes: string | null;
-        customerId: number;
         scheduledAt: Date;
+        customerId: number;
         barberId: number;
         serviceId: number;
+        notes: string | null;
     }[]>;
     findAppointmentsByBarber(id: number, date?: Date): Promise<{
         status: import(".prisma/client").$Enums.AppointmentStatus;
         id: number;
         created: Date;
         isArchived: boolean;
-        notes: string | null;
-        customerId: number;
         scheduledAt: Date;
+        customerId: number;
         barberId: number;
         serviceId: number;
+        notes: string | null;
     }[]>;
     findAppointmentsByCustomer(id: number, date?: Date): Promise<{
         status: import(".prisma/client").$Enums.AppointmentStatus;
         id: number;
         created: Date;
         isArchived: boolean;
-        notes: string | null;
-        customerId: number;
         scheduledAt: Date;
+        customerId: number;
         barberId: number;
         serviceId: number;
+        notes: string | null;
     }[]>;
     updateStatus(id: number, status: AppointmentStatus): Promise<{
         status: import(".prisma/client").$Enums.AppointmentStatus;
         id: number;
         created: Date;
         isArchived: boolean;
-        notes: string | null;
-        customerId: number;
         scheduledAt: Date;
+        customerId: number;
         barberId: number;
         serviceId: number;
+        notes: string | null;
     }>;
 }
